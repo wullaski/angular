@@ -1,0 +1,242 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="//angularjs.org/img/AngularJS-large.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <!-- <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside> -->
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <!-- <slide>
+    <hgroup>
+      <h2>Slide with Bullets</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Titles are formatted as Open Sans with bold applied and font size is set at 45</li>
+        <li>Title capitalization is title case
+          <ul>
+            <li>Subtitle capitalization is title case</li>
+          </ul>
+        </li>
+        <li>Subtitle capitalization is title case</li>
+        <li>Titles and subtitles should never have a period at the end</li>
+      </ul>
+    </article>
+  </slide> -->
+  <slide class="quote dark">
+    <hgroup>
+      <h2>Why you should use AngularJS</h2>
+    </hgroup>
+    <article class="flexbox vleft auto-fadeinn smaller">
+      <p><q>HTML is great for declaring static documents, but it falters when we try to use it for declaring dynamic views in web-applications. AngularJS lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop.</q>
+      </p>
+      <span class="author">--google</span>
+
+    </article>
+  </slide>
+
+  <slide class="quote dark">
+    <hgroup>
+      <h2>Why you should use AngularJS</h2>
+    </hgroup>
+    <article class="flexbox vleft auto-fadeinn smaller">
+      <p><q>Web Applications are hard to build and manage with vanilla javascipt so use angularjs.</q></p>
+      <span class="author">--John Woolschlager</span>
+
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Angular Things(vocab)</h2>
+      <h3></h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Data Binding</li>
+        <li>Directives</li>
+        <li>Controllers</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+    <aside class="right" style="float:right"><img src="//1.media.collegehumor.cvcdn.com/22/11/731f76dd05eee09c04f5b8365f13770c-top-gun-high-five.gif"></aside>
+      <h2>Data Binding</h2>
+      <h3>Data Binding is two-way</h3>
+
+    </hgroup>
+    <article>
+      <ul class="build">        
+        <li>Any updates to the model automatically update the view</li>
+        <li>Any updates to the view update the model</li>
+      </ul>
+    </article>
+  </slide>
+  <slide>
+    <hgroup>
+      <h2>Directives</h2>
+      <h3>Invent HTML attributes and tags to really confuse people</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Create Reusable Components to quickly add to markup</li>
+        <li>Hide Complex DOM Structure</li>
+        <li>Use to validate forms</li>
+      </ul>
+
+
+      <pre class="prettyprint" data-lang="html">
+        &lt;div class="control-group" >
+          &lt;label>What is your age? {{myform.$error}}&lt;/label>
+          &lt;input type="number" name="number" class="form-control" 
+            ng-class="{error: myForm.number.$error.number && !myForm.number.$pristine}" 
+            ng-model="item.number" 
+            number>
+         
+          &lt;span ng-show="myForm.number.$error.number" class="text-danger">
+              Not a Number&lt;/span>
+        &lt;/div>
+      </pre>
+    </article>
+  </slide>
+  <slide>
+    <hgroup>
+      <h2>Directives</h2>
+      <h3>Invent new HTML syntax, specific to your application or use the built in ones.</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Create Reusable Components to quickly add to markup</li>
+        <li>Hide Complex DOM Structure</li>
+        <li>Use to validate forms</li>
+        <li>You can and will write your own</li>
+      </ul>
+
+
+      <pre class="prettyprint" data-lang="javascript">
+        //Custom Form Validation
+        var NUMBER_REGEXP = /^\d+$/;
+        app.directive('number', function() {
+          return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+              ctrl.$parsers.unshift(function(viewValue) {
+                if (NUMBER_REGEXP.test(viewValue)) {
+                  ctrl.$setValidity('number', true);
+                  return viewValue;
+                } else {
+                  ctrl.$setValidity('number', false);
+                  return undefined;
+                }
+              });
+            }
+          };
+        });
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Controllers</h2>
+      <h3>Are the behavior behind the custom DOM elements</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Handle the business logic</li>
+      </ul>
+
+
+      <pre class="prettyprint" data-lang="javascript">
+app.controller('EditCtrl', 
+function($scope, $location, $routeParams, $firebase, fbURL) {
+    var itemUrl = fbURL + $routeParams.itemId;
+    $scope.item = $firebase(new Firebase(itemUrl));
+ 
+    $scope.destroy = function() {
+      $scope.item.$remove();
+      $location.path('/');
+    };
+ 
+    $scope.save = function() {
+      $scope.item.$save();
+      $location.path('/');
+    };
+});
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <article>
+      <ul>
+        <li><a href="//wullaski.github.com/boardgamenight" target="_blank">Boardgame Night</a></li>
+        <li><a href="//wullaski.github.com/angular-test" target="_blank">Sandbox</a></li>
+        <li><a href="//angular-ui.github.io/bootstrap/" target="_blank">Bootstrap Angular Directives</a></li>
+      </ul>
+      <ul class="build">
+        <li><img src="http://d3819ii77zvwic.cloudfront.net/wp-content/uploads/2014/07/ik49VlPshlPIz.gif"></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
